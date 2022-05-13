@@ -1,0 +1,29 @@
+%PL = Path loss in urban areas (dB)
+%hB = Height of base station antenna meter (m)
+%hM = Height of mobile station antenna meter (m)
+%f = Frequency of transmission (MHz)
+%CH = Antenna height correction factor
+%d = Distance between the base and mobile stations(km)
+%Ptx = transmitted power in dB
+%Prx = received power in dB
+
+
+Gtx=0;
+Grx=0;
+Ptx=20;        %assumed
+f=900;
+hB=20;
+hM=1.5;
+d=0.001:10;                     
+
+CH = 0.8 + hM * (1.1*log(f) - 0.7) - 1.56*log(f);
+PL = 69.55 + 26.16*log(f) - 13.82*log(hB) - CH + (44.9-6.55*log(hB))*log(d);
+
+Prx = Ptx-PL;
+PrxdBm = Prx + 30;          
+
+plot(d,PrxdBm)
+grid on
+title('Received power [dBm] vs distance [km]')
+xlabel(' distance  [km]')
+ylabel('Received power [dBm]')
