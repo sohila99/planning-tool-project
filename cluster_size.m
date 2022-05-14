@@ -1,6 +1,6 @@
 %part A.1
 
-%generate a set of frequency reuse factor possible values
+%generate an array B of frequency reuse factor possible values
 A=zeros(1,c);
 c=0;
 for i = 0:10
