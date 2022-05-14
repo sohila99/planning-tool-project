@@ -12,21 +12,8 @@ for i = 0:10
     end
 end
 
-sectorization = 1;
-%number of interfering channels (i) according to sectorization method
-if sectorization == 0 %omnidirectional
-    i = 6;
-else if sectorization == 1 %60 degrees sectorization
-        i = 2;
-    else if sectorization == 2 %120 degrees sectorization
-            i = 1;
-        end
-    end
-end
-
-
-SIR=20;
+SIRmin=20;
 n=4; %path loss exponent
-%calculate N from the given SIR(dB)
-N_more_or_eq=(1/3)*(i*10^(SIR/(n*10)))^2;
+%calculate cluster size N from the given SIR(dB)
+N_more_or_eq=(1/3)*(sectorsNumber*10^(SIRmin/(n*10)))^2; 
 N = B( find ( B > N_more_or_eq, 1));
