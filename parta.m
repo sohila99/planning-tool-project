@@ -40,9 +40,21 @@ elseif sectorMethod == 2
 else errordlg('Please enter 0 for omnidirectional, 1 for 60 degrees sectoring, and 2 for 120 degrees sectoring','Error')
 end
 
-%calculating N (cluster size)
+%generate an array B of frequency reuse factor possible values
+A=zeros(1,c);
+c=0;
+for i = 0:10
+    for k = 1:10
+       m = (i^2)+(i*k)+(k^2);
+       c=c+1;
+       A(1, c) = [m];
+       B=sort(unique(A));
+    end
+end
 
-N = reuseDist^2 / 3;
+%calculate cluster size N from the given SIRmin(dB)
+N_more_or_eq=(1/3)*(i*10^(SIRmin/(n*10)))^2; 
+N = B( find ( B > N_more_or_eq, 1));
 	
 
 
