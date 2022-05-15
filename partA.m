@@ -31,9 +31,9 @@ SIRratio = 10^(SIRmin*0.1);
 if sectorMethod == 0
 	i = 6;
 elseif sectorMethod == 1
-	i = 2;
-elseif sectorMethod == 2
 	i = 1;
+elseif sectorMethod == 2
+	i = 2;
 else errordlg('Please enter 0 for omnidirectional, 1 for 60 degrees sectoring, and 2 for 120 degrees sectoring','Error')
 end
 
