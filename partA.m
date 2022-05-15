@@ -39,6 +39,7 @@ end
 
 %cluster size
 %generate an array B of frequency reuse factor possible values
+
 A=zeros(1,c);
 c=0;
 for i = 0:10
@@ -51,12 +52,15 @@ for i = 0:10
 end
 
 %calculate cluster size N from the given SIR(dB) and according to the number of interfering channels
+
 N_more_or_eq=(1/3)*(i*10^(SIRmin/(n*10)))^2; 
 N = B( find ( B > N_more_or_eq, 1));
 
+%number of cells
+
+k = S/N;
+
 %total traffic intensity
+
 U = userDensity*cityArea;
 A = trafficUser*userDensity;
-
-
-    
