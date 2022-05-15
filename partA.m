@@ -56,7 +56,7 @@ end
 N_more_or_eq=(1/3)*(i*10^(SIRmin/(n*10)))^2; 
 N = B( find ( B > N_more_or_eq, 1));
 
-%number of channels
+%number of channels per cell
 
 C = S/N;
 
