@@ -15,5 +15,5 @@ end
 SIRmin=20;
 n=4; %path loss exponent
 %calculate cluster size N from the given SIR(dB)
-N_more_or_eq=(1/3)*(sectorsNumber*10^(SIRmin/(n*10)))^2; 
+N_more_or_eq=(1/3)*(i*10^(SIRmin/(n*10)))^2; 
 N = B( find ( B > N_more_or_eq, 1));
