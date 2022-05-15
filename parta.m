@@ -14,21 +14,30 @@ n = 4;
 %inputs to get from the user
 GOS = input('Enter the GOS ');
 cityArea = input('Enter the city area (in square kilometers) ');
-userDensity = input('Enter the user denisty (number of users in the given city area) ');
-SIRmin = input('Enter the minimum SIR ');
+userDensity = input('Enter the user denisty (number of users in the given city area in users per square kilometer) ');
+SIRmin = input('Enter the minimum SIR in dB');
 sectorMethod = input('Enter the sectorization method (0 for omnidirectional, 1 for 60 degrees sectoring, and 2 for 120 degrees sectoring) ');
+
+SIRratio = 10^(SIRmin*0.1);
 
 
 if sectorMethod == 0
+	reuseRatio = (6*SIRmin)^(0.25)+1
 	sectorsNumber == 1;
 elseif sectorMethod == 1
+	reuseRatio = (SIRmin)^(0.25)+1
 	sectorsNumber = 6;
 elseif sectorMethod == 2
+	reuseRatio = (2*SIRmin)^(0.25)+1
 	sectorsNumber = 3;
-else errordlg('Please enter 0 for 60 degrees sectoring and 1 for 120 degrees sectoring','Error')
+else errordlg('Please enter 0 for omnidirectional, 1 for 60 degrees sectoring, and 2 for 120 degrees sectoring','Error')
 end
 	
 
-%Hata Model Calculations
 
-CH = 0.8 + (1.1*log(fMHz)-0.7)*MSh - 1.56*log(fMHz); %CH value for medium-sized urban city
+%total traffic intensity
+U = userDensity*cityArea;
+A = trafficUser*userDensity;
+
+
+    
