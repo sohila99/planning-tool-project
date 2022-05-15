@@ -39,20 +39,18 @@ end
 
 %cluster size
 %generate an array B of frequency reuse factor possible values
-
-A=zeros(1,c);
+X=zeros(1,1000);
 c=0;
 for i = 0:10
     for k = 1:10
        m = (i^2)+(i*k)+(k^2);
        c=c+1;
-       A(1, c) = [m];
-       B=sort(unique(A));
+       X(1, c) = [m];
+       B=sort(unique(X));
     end
 end
 
 %calculate cluster size N from the given SIR(dB) and according to the number of interfering channels
-
 N_more_or_eq=(1/3)*(i*10^(SIRmin/(n*10)))^2; 
 N = B( find ( B > N_more_or_eq, 1));
 
