@@ -41,9 +41,9 @@ end
 %generate an array B of frequency reuse factor possible values
 X=zeros(1,1000);
 c=0;
-for i = 0:10
+for j = 0:10
     for k = 1:10
-       m = (i^2)+(i*k)+(k^2);
+       m = (j^2)+(j*k)+(k^2);
        c=c+1;
        X(1, c) = [m];
        B=sort(unique(X));
