@@ -18,7 +18,7 @@ GOS = input('Enter the GOS ');
 cityArea = input('Enter the city area (in square kilometers) ');
 userDensity = input('Enter the user denisty (number of users in the given city area in users per square kilometer) ');
 SIRmin = input('Enter the minimum SIR in dB');
-sectorMethod = input('Enter the sectorization method (0 for omnidirectional, 1 for 60 degrees sectoring, and 2 for 120 degrees sectoring) ');
+sectorMethod = input('Enter the sectorization method (0 for omnidirectional, 1 for 120 degrees sectoring, and 2 for 60 degrees sectoring) ');
 
 %Calculations
 
@@ -31,10 +31,10 @@ SIRratio = 10^(SIRmin*0.1);
 if sectorMethod == 0
 	i = 6;
 elseif sectorMethod == 1
-	i = 1;
-elseif sectorMethod == 2
 	i = 2;
-else errordlg('Please enter 0 for omnidirectional, 1 for 60 degrees sectoring, and 2 for 120 degrees sectoring','Error')
+elseif sectorMethod == 2
+	i = 1;
+else errordlg('Please enter 0 for omnidirectional, 1 for 120 degrees sectoring, and 2 for 60 degrees sectoring','Error')
 end
 
 %cluster size
