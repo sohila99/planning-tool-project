@@ -51,7 +51,7 @@ for j = 0:10
 end
 
 %calculate cluster size N from the given SIR(dB) and according to the number of interfering channels
-N_more_or_eq=(1/3)*(i*10^(SIRmin/(n*10)))^2; 
+N_more_or_eq=(1/3)*(i*10^(SIRmin/10))^(2/n);  
 N = B( find ( B > N_more_or_eq, 1));
 
 %number of channels per cell
