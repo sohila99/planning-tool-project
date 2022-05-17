@@ -29,11 +29,11 @@ SIRratio = 10^(SIRmin*0.1);
 %calculating the number of interfering channels i according to the sectorization method used
 
 if sectorMethod == 0
-	i = 6;
+	i = 6;no_of_sectors=1;
 elseif sectorMethod == 1
-	i = 2;
+	i = 2;no_of_sectors=3;
 elseif sectorMethod == 2
-	i = 1;
+	i = 1;no_of_sectors=6;
 else errordlg('Please enter 0 for omnidirectional, 1 for 120 degrees sectoring, and 2 for 60 degrees sectoring','Error')
 end
 
@@ -60,7 +60,21 @@ N = B( find ( B >= N_more_or_eq, 1));
 
 %number of channels per cell
 
-C = S/N;
+C_cell=floor(S/N);
+C=floor(C_cell/no_of_sectors); % number of channels per sector
+
+for A=1:1000 %for loop to get close value to traffic intensity to use it in fzero
+    Pr= (A^C/factorial(C))/sum(A.^([0:C])./cumprod([0,0:C-1]+1));
+    if GOS<=Pr
+     break
+    end
+end
+
+Erlang = @(A1) (A1^C/factorial(C))/sum(A1.^([0:C])./cumprod([0,0:C-1]+1));
+traffic_intensity_per_sector = fzero(@(A1) Erlang(A1)-GOS, A); 
+
+traffic_intensity_per_cell=traffic_intensity_per_sector*no_of_sectors;
+end
 
 %total traffic intensity
 
