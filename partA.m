@@ -9,7 +9,7 @@ fMHz = 900;
 BSh = 20;
 MSh = 1.5;
 Rxmin = -95;
-trafficUser = 0.025;
+traffic_per_User = 0.025;
 n = 4;
 
 %inputs to get from the user
@@ -77,7 +77,7 @@ traffic_intensity_per_cell=traffic_intensity_per_sector*no_of_sectors;
 end
 
 %total number of cells 
-traffic_intensity_total = trafficUser * userDensity * cityArea;
+traffic_intensity_total = traffic_per_User * userDensity * cityArea;
 no_of_cells = traffic_intensity_total/traffic_intensity_per_cell; 
 
 %cell radius
