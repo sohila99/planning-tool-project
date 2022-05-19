@@ -103,3 +103,18 @@ grid on
 title('Received power [dBm] vs distance [km]')
 xlabel(' distance  [km]')
 ylabel('Received power [dBm]')
+
+%message prompt
+m1 = "1) Cluster size = " + N;
+m2 = "2) Number of cells = " + no_of_cells + " cells";
+m3 = "3) Cell radius = " + cell_radius + " km";
+m4 = "4) Traffic intensity per cell = " +  traffic_intensity_per_cell + " Erlangs";
+m5 = "5) Traffic intensity per sector = " +  traffic_intensity_per_sector + " Erlangs";
+m6 = "6) Base station transmitted powrer " + Ptx + " dBm";
+
+h1 = msgbox(m1)
+h2 = msgbox(m2)
+h3 = msgbox(m3)
+h4 = msgbox(m4)
+h5 = msgbox(m5)
+h6 = msgbox(m6)
