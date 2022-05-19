@@ -77,7 +77,7 @@ traffic_intensity_per_cell=traffic_intensity_per_sector*no_of_sectors;
 end
 
 %total number of cells 
-traffic_intensity_total = traffic_intensity_per_user * userDensity * cityArea;
+traffic_intensity_total = trafficUser * userDensity * cityArea;
 no_of_cells = traffic_intensity_total/traffic_intensity_per_cell; 
 
 %cell radius
