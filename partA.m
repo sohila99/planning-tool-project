@@ -80,3 +80,7 @@ end
 
 U = userDensity*cityArea;
 A = trafficUser*userDensity;
+
+%cell radius
+cell_area=cityArea/no_of_cells;
+cell_radius=sqrt(cell_area/(1.5*sqrt(3)));
