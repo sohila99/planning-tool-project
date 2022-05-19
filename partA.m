@@ -76,11 +76,6 @@ traffic_intensity_per_sector = fzero(@(A1) Erlang(A1)-GOS, A);
 traffic_intensity_per_cell=traffic_intensity_per_sector*no_of_sectors;
 end
 
-%total traffic intensity
-
-U = userDensity*cityArea;
-A = trafficUser*userDensity;
-
 %total number of cells 
 traffic_intensity_total = traffic_intensity_per_user * userDensity * cityArea;
 no_of_cells = traffic_intensity_total/traffic_intensity_per_cell; 
