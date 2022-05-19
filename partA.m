@@ -93,12 +93,12 @@ Ptx = Ptxbreak - 10*n*log(cell_radius/dbreak);            %in dB
 
 %received power
 
-d=0.001:10;                     
+d=0.001:90;                     
 CH = 0.8 + hM * (1.1*log(fMHz) - 0.7) - 1.56*log(fMHz);
 PL = 69.55 + 26.16*log(fMHz) - 13.82*log(hB) - CH + (44.9-6.55*log(hB))*log(d);
 Prx = Ptx-PL;
 PrxdBm = Prx + 30;          
-plot(d,PrxdBm)
+semilogx(d,PrxdBm)
 grid on
 title('Received power [dBm] vs distance [km]')
 xlabel(' distance  [km]')
