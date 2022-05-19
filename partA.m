@@ -1,13 +1,13 @@
 %part a
 
-%Givens (total number of channels is S, the frequency in MHz is fMHz, BSh is the Base Station height in meters,
-% MSh is the Mobile Station height in meters, Rxmin is the MS sensitivity in dBm, traffic is the traffic intensity
+%Givens (total number of channels is S, the frequency in MHz is fMHz, hB is the Base Station height in meters,
+% hM is the Mobile Station height in meters, Rxmin is the MS sensitivity in dBm, traffic is the traffic intensity
 %per user in Erlang,and n is the path loss exponent)
 
 S = 340;
 fMHz = 900;
-BSh = 20;
-MSh = 1.5;
+hB = 20;
+hM = 1.5;
 Rxmin = -95;
 traffic_per_User = 0.025;
 n = 4;
@@ -86,22 +86,17 @@ cell_radius=sqrt(cell_area/(1.5*sqrt(3)));
 
 %transmitted power
 
-f=900;
 C=3*10^8;
 lamda= C/f;
-hB=20;
-hM=1.5;
 dbreak=(4*hM*hB)/lamda;
-n=4;
-P_sensitivity=-95-30;      %in dB
-Ptxbreak = P_sensitivity + 20*log(C/(4*pi*f)) -20*log(dbreak);
+Ptxbreak = Rxmin + 20*log(C/(4*pi*fMHz)) -20*log(dbreak);
 Ptx = Ptxbreak - 10*n*log(cell_radius/dbreak);            %in dB 
 
 %received power
 
 d=0.001:10;                     
-CH = 0.8 + hM * (1.1*log(f) - 0.7) - 1.56*log(f);
-PL = 69.55 + 26.16*log(f) - 13.82*log(hB) - CH + (44.9-6.55*log(hB))*log(d);
+CH = 0.8 + hM * (1.1*log(fMHz) - 0.7) - 1.56*log(fMHz);
+PL = 69.55 + 26.16*log(fMHz) - 13.82*log(hB) - CH + (44.9-6.55*log(hB))*log(d);
 Prx = Ptx-PL;
 PrxdBm = Prx + 30;          
 plot(d,PrxdBm)
