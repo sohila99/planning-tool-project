@@ -86,7 +86,7 @@ cell_radius=sqrt(cell_area/(1.5*sqrt(3)));
 %transmitted power
 
 C=3*10^8;
-lamda= C/(fMHz*10^6);
+lambda= C/(fMHz*10^6);
 dbreak=(4*hM*hB)/lamda;
 Ptxbreak = Rxmin + 20*log(C/(4*pi*fMHz)) -20*log(dbreak);
 Ptx = Ptxbreak - 10*n*log(cell_radius/dbreak);            %in dB 
