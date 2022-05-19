@@ -83,3 +83,29 @@ no_of_cells = traffic_intensity_total/traffic_intensity_per_cell;
 %cell radius
 cell_area=cityArea/no_of_cells;
 cell_radius=sqrt(cell_area/(1.5*sqrt(3)));
+
+%transmitted power
+
+f=900;
+C=3*10^8;
+lamda= C/f;
+hB=20;
+hM=1.5;
+dbreak=(4*hM*hB)/lamda;
+n=4;
+P_sensitivity=-95-30;      %in dB
+Ptxbreak = P_sensitivity + 20*log(C/(4*pi*f)) -20*log(dbreak);
+Ptx = Ptxbreak - 10*n*log(cell_radius/dbreak);            %in dB 
+
+%received power
+
+d=0.001:10;                     
+CH = 0.8 + hM * (1.1*log(f) - 0.7) - 1.56*log(f);
+PL = 69.55 + 26.16*log(f) - 13.82*log(hB) - CH + (44.9-6.55*log(hB))*log(d);
+Prx = Ptx-PL;
+PrxdBm = Prx + 30;          
+plot(d,PrxdBm)
+grid on
+title('Received power [dBm] vs distance [km]')
+xlabel(' distance  [km]')
+ylabel('Received power [dBm]')
