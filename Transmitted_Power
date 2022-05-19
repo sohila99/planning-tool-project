@@ -1,0 +1,12 @@
+
+f=900;
+C=3*10^8;
+lamda= C/f;
+hB=20;
+hM=1.5;
+dbreak=(4*hM*hB)/lamda;
+R=0.05;           %Cell radius assumed 
+n=4;
+P_sensitivity=-95-30;      %in dB
+Ptxbreak = P_sensitivity + 20*log(C/(4*pi*f)) -20*log(dbreak);
+Ptx = Ptxbreak - 10*n*log(R/dbreak);            %in dB 
