@@ -23,15 +23,27 @@ cell_radius=sqrt(cell_area/(1.5*sqrt(3)));
 figure
 semilogx(userDensity,no_of_cells)
 grid on
+title('# Of Cells vs User Density [users/area] SIRmin = 14dB and GOS = 2%');
+xlabel('Number of Total Cells In Area');
+ylabel('User Density')'
 figure
 plot(cell_radius,userDensity)
 grid on
+title('Cell Radius [Km] vs User Density SIRmin = 14dB and GOS = 2%');
+xlabel('Cell Radius [Km]');
+ylabel('User Density [users/area]');
 
-%PART (5)
+%PART B (5)
 SIRmin = 19;
 figure
 semilogx(userDensity,no_of_cells)
 grid on
+title('Number of Cells vs User Density at SIRmin = 19dB and GOS = 2%');
+xlabel('User Density');
+ylabel('Number of Cells');
 figure
 plot(cell_radius,userDensity)
 grid on
+title('Cell Radius [Km] vs User Density at SIRmin = 19dB and GOS = 2%');
+xlabel('Cell Radius [Km]');
+ylabel('User Density');
