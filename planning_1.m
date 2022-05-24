@@ -14,11 +14,16 @@ n = 4;
 
 %inputs to get from the user
 
-GOS = input('Enter the GOS ');
-cityArea = input('Enter the city area (in square kilometers) ');
-userDensity = input('Enter the user density (number of users in the given city area in users per square kilometer) ');
-SIRmin = input('Enter the minimum SIR in dB');
-sectorMethod = input('Enter the sectorization method (0 for omnidirectional, 1 for 120 degrees sectoring, and 2 for 60 degrees sectoring) ');
+userDensity=1400;
+sectorMethod=0;
+cityArea=100;
+
+
+% GOS = input('Enter the GOS ');
+% cityArea = input('Enter the city area (in square kilometers) ');
+% userDensity = input('Enter the user density (number of users in the given city area in users per square kilometer) ');
+% SIRmin = input('Enter the minimum SIR in dB');
+% sectorMethod = input('Enter the sectorization method (0 for omnidirectional, 1 for 120 degrees sectoring, and 2 for 60 degrees sectoring) ');
 
 %Calculations
 
@@ -50,18 +55,56 @@ for j = 0:10
     end
 end
 
-%calculate cluster size N from the given SIR(dB) and according to the number of interfering channels i
-%There are two models for calculating N
-%Rappaport Model
+
 N_more_or_eq=(1/3)*(i*10^(SIRmin/10))^(2/n);
-%Molisch Model
-%N_more_or_eq=(1/3)*((i*10^(SIRmin/10))^(1/n)+1)^2;
 N = B( find ( B >= N_more_or_eq, 1));
 
 %number of channels per cell
 
 C_cell=floor(S/N);
 C=floor(C_cell/no_of_sectors); % number of channels per sector
+##%PART B (1)
+##Y=[];
+##X=[];
+##SIRmin = 19;
+##for GOS=.01:.01:.3
+##
+##for A=1:1000 %for loop to get close value to traffic intensity to use it in fzero
+##    Pr= (A^C/factorial(C))/sum(A.^([0:C])./cumprod([0,0:C-1]+1));
+##    if GOS<=Pr
+##     break
+##    end
+##end
+##
+##Erlang = @(A1) (A1^C/factorial(C))/sum(A1.^([0:C])./cumprod([0,0:C-1]+1));
+##traffic_intensity_per_sector = fzero(@(A1) Erlang(A1)-GOS, A);
+##
+##traffic_intensity_per_cell=traffic_intensity_per_sector*no_of_sectors;
+##
+##%total number of cells
+##traffic_intensity_total = traffic_per_User * userDensity * cityArea;
+##no_of_cells = traffic_intensity_total/traffic_intensity_per_cell;
+##Y=[Y ,no_of_cells];
+##X = [X, traffic_intensity_per_cell];
+##end
+##gos = 0.01:0.01:0.3;
+##figure
+##plot(Y,gos)
+##grid on
+##title("Numb. of Cells vs GOS");
+##xlabel("Number of Cells"); ylabel("GOS [Grade of Service]");
+##
+##figure
+##plot(X,gos)
+##grid on
+##title("Traff. Intensity per Cell vs GOS");
+##xlabel("Traffic Int. Per Cell"); ylabel("GOS [Grade of Service]");
+
+%PART B (2)
+SIRmin = 14;
+F = [];
+H = [];
+for GOS=0.01:0.01:0.3
 
 for A=1:1000 %for loop to get close value to traffic intensity to use it in fzero
     Pr= (A^C/factorial(C))/sum(A.^([0:C])./cumprod([0,0:C-1]+1));
@@ -78,95 +121,19 @@ traffic_intensity_per_cell=traffic_intensity_per_sector*no_of_sectors;
 %total number of cells
 traffic_intensity_total = traffic_per_User * userDensity * cityArea;
 no_of_cells = traffic_intensity_total/traffic_intensity_per_cell;
-
-%cell radius
-cell_area=cityArea/no_of_cells;
-cell_radius=sqrt(cell_area/(1.5*sqrt(3)));
-
-%transmitted power
-
-C=3*10^8;
-lambda= C/(fMHz*10^6);
-dbreak=(4*hM*hB)/lambda;
-Ptxbreak = Rxmin + 20*log(C/(4*pi*fMHz)) -20*log(dbreak);
-Ptx = Ptxbreak - 10*n*log(cell_radius/dbreak);            %in dB
-
-%received power
-
-d=0.001:0.1:10;
-CH = 0.8 + hM * (1.1*log(fMHz) - 0.7) - 1.56*log(fMHz);
-PL = 69.55 + 26.16*log(fMHz) - 13.82*log(hB) - CH + (44.9-6.55*log(hB))*log(d);
-Prx = Ptx-PL;
-PrxdBm = Prx + 30;
+F=[F ,no_of_cells];
+H=[H ,traffic_intensity_per_cell];
+end
 figure
-semilogx(d,PrxdBm)
+plot(F,gos)
 grid on
-title('Received power [dBm] vs distance [km]')
-xlabel(' distance  [km]')
-ylabel('Received power [dBm]')
+title("Numb. of Cells vs GOS");
+xlabel("Number of Cells"); ylabel("GOS [Grade of Service]");
 
-%PART B (1)
-SIRmin = 1:30;
 figure
-semilogx(SIRmin,B(1, 1:30))
+plot(H,gos)
 grid on
-title('Cluster Size VS SIR [dB]')
-xlabel('Cluster Size')
-ylabel('SIR [dB]')
+title("Traff. Intensity per Cell vs GOS");
+xlabel("Traffic Int. Per Cell"); ylabel("GOS [Grade of Service]");
 
-%PART B (2)
 
-%PART B (3)
-
-%PART B (4)
-SIRmin = 14;
-GOS = 0.2;
-userDensity = 100:10:2000
-%Total number of Cells
-traffic_intensity_total = traffic_per_User * userDensity * cityArea;
-no_of_cells = traffic_intensity_total/traffic_intensity_per_cell;
-%Cell Radius
-cell_area=cityArea./no_of_cells;
-cell_radius=sqrt(cell_area/(1.5*sqrt(3)));
-figure
-semilogx(userDensity,no_of_cells)
-grid on
-title('# Of Cells vs User Density [users/area] SIRmin = 14dB and GOS = 2%');
-xlabel('Number of Total Cells In Area');
-ylabel('User Density')'
-figure
-plot(cell_radius,userDensity)
-grid on
-title('Cell Radius [Km] vs User Density SIRmin = 14dB and GOS = 2%');
-xlabel('Cell Radius [Km]');
-ylabel('User Density [users/area]');
-
-%PART B (5)
-SIRmin = 19;
-figure
-semilogx(userDensity,no_of_cells)
-grid on
-title('Number of Cells vs User Density at SIRmin = 19dB and GOS = 2%');
-xlabel('User Density');
-ylabel('Number of Cells');
-figure
-plot(cell_radius,userDensity)
-grid on
-title('Cell Radius [Km] vs User Density at SIRmin = 19dB and GOS = 2%');
-xlabel('Cell Radius [Km]');
-ylabel('User Density');
-
-%message prompt
-m1 = "1) Cluster size = " + N;
-m2 = "2) Number of cells = " + no_of_cells + " cells";
-m3 = "3) Cell radius = " + cell_radius + " km";
-m4 = "4) Traffic intensity per cell = " +  traffic_intensity_per_cell + " Erlangs";
-m5 = "5) Traffic intensity per sector = " +  traffic_intensity_per_sector + " Erlangs";
-m6 = "6) Base station transmitted powrer " + Ptx + " dBm";
-
-h1 = msgbox(m1)
-h2 = msgbox(m2)
-h3 = msgbox(m3)
-h4 = msgbox(m4)
-h5 = msgbox(m5)
-h6 = msgbox(m6)
